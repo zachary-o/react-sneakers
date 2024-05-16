@@ -1,47 +1,50 @@
+import CardMain from "./components/CardMain"
+import Drawer from "./components/Drawer"
+import Header from "./components/Header"
+
+const arr = [
+  {
+    name: "Men's Sneakers Nike Blazer Mid Suede",
+    price: "39",
+    imageUrl: "/img/sneakers/1.jpg"
+  },
+  {
+    name: "Men's Sneakers Nike Air Max 270",
+    price: "69",
+    imageUrl: "/img/sneakers/2.jpg"
+  },
+  {
+    name: "Men's Sneakers Nike Blazer Mid Suede",
+    price: "49",
+    imageUrl: "/img/sneakers/3.jpg"
+  },
+  {
+    name: "Men's Sneakers Puma X Aka Boku Future Rider",
+    price: "59",
+    imageUrl: "/img/sneakers/4.jpg"
+  },
+]
+
 function App() {
   return (
     <div className="wrapper clear">
-      <header className="d-flex justify-between align-center p-40">
-        <div className="d-flex align-center">
-          <img width={40} height={40} src="/img/logo.png" />
-          <div>
-            <h3 className="text-uppercase">React Sneakers</h3>
-            <p className="opacity-5">Best sneakers store</p>
-          </div>
-        </div>
-        <ul className="d-flex">
-          <li className="mr-30">
-            <img width={18} height={18} src="/img/cart.svg" />
-            <span>469 USD</span>
-          </li>
-          <li>
-            <img width={18} height={18} src="/img/profile.svg" />
-          </li>
-        </ul>
-      </header>
+      <Drawer />
+      <Header />
 
       <div className="content p-40">
-        <h1 className="mb-40">All Sneakers</h1>
-        <div className="d-flex">
-          <div className="card">
-            <img
-              width={133}
-              height={112}
-              src="/img/sneakers/01.jpg"
-              alt="Sneakers picture"
-            />
-            <h5>Men's Sneakers Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Price:</span>
-                <b>39 USD</b>
-              </div>
-              <button className="button">
-                <img height={11} width={11} src="/img/plus.svg" alt="Add" />
-              </button>
-            </div>
+        <div className="d-flex align-center justify-between mb-40">
+          <h1>All Sneakers</h1>
+          <div className="searchBlock d-flex">
+            <img src="/img/search.svg" alt="Search" />
+            <input placeholder="Search" />
           </div>
-          <div className="card">
+        </div>
+
+        <div className="d-flex">
+          {arr.map((item) => (
+            <CardMain key={item.name} {...item} />
+          ))}
+          {/* <div className="card">
             <img
               width={133}
               height={112}
@@ -54,9 +57,7 @@ function App() {
                 <span>Price:</span>
                 <b>39 USD</b>
               </div>
-              <button className="button">
-                <img height={11} width={11} src="/img/plus.svg" alt="Add" />
-              </button>
+              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
             </div>
           </div>
           <div className="card">
@@ -72,9 +73,7 @@ function App() {
                 <span>Price:</span>
                 <b>39 USD</b>
               </div>
-              <button className="button">
-                <img height={11} width={11} src="/img/plus.svg" alt="Add" />
-              </button>
+              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
             </div>
           </div>
           <div className="card">
@@ -90,11 +89,9 @@ function App() {
                 <span>Price:</span>
                 <b>39 USD</b>
               </div>
-              <button className="button">
-                <img height={11} width={11} src="/img/plus.svg" alt="Add" />
-              </button>
+              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
