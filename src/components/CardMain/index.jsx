@@ -1,7 +1,14 @@
-import React from "react"
-import styles from "./CarMain.module.scss"
+import React, { useState } from "react"
+import styles from "./CardMain.module.scss"
 
-const CardMain = ({ name, price, imageUrl }) => {
+const CardMain = ({ id, name, price, imageUrl, handleAddToCart }) => {
+  const [isAdded, setIsAdded] = useState(false)
+
+  const handlePlusClick = () => {
+    handleAddToCart({ id, name, price, imageUrl })
+    setIsAdded(!isAdded)
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.favorite}>
@@ -18,9 +25,8 @@ const CardMain = ({ name, price, imageUrl }) => {
 
         <img
           className={styles.button}
-          height={11}
-          width={11}
-          src="/img/btn-plus.svg"
+          onClick={handlePlusClick}
+          src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
           alt="Add"
         />
       </div>

@@ -1,97 +1,75 @@
+import { useEffect, useState } from "react"
 import CardMain from "./components/CardMain"
 import Drawer from "./components/Drawer"
 import Header from "./components/Header"
-
-const arr = [
-  {
-    name: "Men's Sneakers Nike Blazer Mid Suede",
-    price: "39",
-    imageUrl: "/img/sneakers/1.jpg"
-  },
-  {
-    name: "Men's Sneakers Nike Air Max 270",
-    price: "69",
-    imageUrl: "/img/sneakers/2.jpg"
-  },
-  {
-    name: "Men's Sneakers Nike Blazer Mid Suede",
-    price: "49",
-    imageUrl: "/img/sneakers/3.jpg"
-  },
-  {
-    name: "Men's Sneakers Puma X Aka Boku Future Rider",
-    price: "59",
-    imageUrl: "/img/sneakers/4.jpg"
-  },
-]
+import axios from "axios"
 
 function App() {
+  const [items, setItems] = useState([])
+  const [cartItems, setCartItems] = useState([])
+  const [isOpenedCart, setIsOpenedCart] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+
+  const fetchSneakers = async () => {
+    try {
+      const response = await axios.get(
+        "https://6646d17c51e227f23aafed62.mockapi.io/items"
+      )
+      setItems(response?.data)
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchSneakers()
+  }, [])
+
+  const handleAddToCart = (data) => {
+    const isItemInCart = cartItems.some(cartItem => cartItem.id === data.id)
+    if (isItemInCart) {
+      return
+    }
+    setCartItems(prev => [...prev, data])
+  }
+
+  const handleDeleteFromCart = (data) => {
+    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== data.id)
+    setCartItems(updatedCartItems)
+  }
+
+
   return (
     <div className="wrapper clear">
-      <Drawer />
-      <Header />
+      {isOpenedCart && (
+        <Drawer setIsOpenedCart={setIsOpenedCart} cartItems={cartItems} handleDeleteFromCart={handleDeleteFromCart} />
+      )}
+      <Header setIsOpenedCart={setIsOpenedCart} />
 
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
-          <h1>All Sneakers</h1>
+          <h1>{searchValue ? `Search Results for: ${searchValue}` : "All Sneakers"}</h1>
           <div className="searchBlock d-flex">
             <img src="/img/search.svg" alt="Search" />
-            <input placeholder="Search" />
+            {searchValue && <img
+              className="clear cu-p"
+              src="/img/btn-remove.svg"
+              alt="Clear search input"
+              onClick={() => setSearchValue("")}
+            />}
+            <input placeholder="Search" value={searchValue} onChange={(event) => setSearchValue(event.target.value)} />
           </div>
         </div>
 
-        <div className="d-flex">
-          {arr.map((item) => (
-            <CardMain key={item.name} {...item} />
+        <div className="mainItems">
+          {items.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())).map((item) => (
+            <CardMain
+              key={item.id}
+              {...item}
+              onClickPlus
+              handleAddToCart={handleAddToCart}
+            />
           ))}
-          {/* <div className="card">
-            <img
-              width={133}
-              height={112}
-              src="/img/sneakers/02.jpg"
-              alt="Sneakers picture"
-            />
-            <h5>Men's Sneakers Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Price:</span>
-                <b>39 USD</b>
-              </div>
-              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
-            </div>
-          </div>
-          <div className="card">
-            <img
-              width={133}
-              height={112}
-              src="/img/sneakers/03.jpg"
-              alt="Sneakers picture"
-            />
-            <h5>Men's Sneakers Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Price:</span>
-                <b>39 USD</b>
-              </div>
-              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
-            </div>
-          </div>
-          <div className="card">
-            <img
-              width={133}
-              height={112}
-              src="/img/sneakers/04.jpg"
-              alt="Sneakers picture"
-            />
-            <h5>Men's Sneakers Nike Blazer Mid Suede</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Price:</span>
-                <b>39 USD</b>
-              </div>
-              <img className="button" height={11} width={11} src="/img/btn-plus.svg" alt="Add" />
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
