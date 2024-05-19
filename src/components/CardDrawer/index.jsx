@@ -1,5 +1,5 @@
-import React from "react"
-import styles from "./CardDrawer.module.scss"
+import React from "react";
+import styles from "./CardDrawer.module.scss";
 
 const CardDrawer = ({ id, name, price, imageUrl, handleDeleteFromCart }) => {
   return (
@@ -16,18 +16,10 @@ const CardDrawer = ({ id, name, price, imageUrl, handleDeleteFromCart }) => {
         className={styles.removeBtn}
         src="/img/btn-remove.svg"
         alt="Remove button"
-        onClick={() =>
-          handleDeleteFromCart({
-            id,
-            name,
-            price,
-            imageUrl,
-            handleDeleteFromCart,
-          })
-        }
+        onClick={() => handleDeleteFromCart(id)}
       />
     </div>
-  )
-}
+  );
+};
 
-export default CardDrawer
+export default CardDrawer;

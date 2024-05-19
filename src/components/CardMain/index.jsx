@@ -1,21 +1,39 @@
-import React, { useState } from "react"
-import styles from "./CardMain.module.scss"
+import React, { useState } from "react";
+import styles from "./CardMain.module.scss";
 
-const CardMain = ({ id, name, price, imageUrl, handleAddToCart }) => {
-  const [isAdded, setIsAdded] = useState(false)
+const CardMain = ({
+  id,
+  name,
+  price,
+  imageUrl,
+  handleAddToCart,
+  handleAddToFavorites,
+  isInFavorites = false,
+}) => {
+  const [isAdded, setIsAdded] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(isInFavorites);
 
   const handlePlusClick = () => {
-    handleAddToCart({ id, name, price, imageUrl })
-    setIsAdded(!isAdded)
-  }
+    handleAddToCart({ id, name, price, imageUrl });
+    setIsAdded(true);
+  };
+
+  const handleHeartClick = () => {
+    handleAddToFavorites({ id, name, price, imageUrl });
+    setIsFavorite(!isFavorite);
+  };
 
   return (
     <div className={styles.card}>
       <div className={styles.favorite}>
-        <img src="/img/heart-gray.svg" alt="Unliked" />
+        <img
+          src={isFavorite ? "/img/heart-red.svg" : "/img/heart-gray.svg"}
+          alt="Unliked"
+          onClick={handleHeartClick}
+        />
       </div>
 
-      <img width={133} height={112} src={imageUrl} alt="Sneakers picture" />
+      <img width={133} height={112} src={imageUrl} alt="Sneakers" />
       <h5>{name}</h5>
       <div className="d-flex justify-between align-center">
         <div className="d-flex flex-column">
@@ -31,7 +49,7 @@ const CardMain = ({ id, name, price, imageUrl, handleAddToCart }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CardMain
+export default CardMain;
