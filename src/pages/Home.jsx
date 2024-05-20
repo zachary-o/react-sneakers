@@ -1,12 +1,30 @@
-import CardMain from "../components/CardMain";
+import CardMain from "../components/CardMain"
 
 const Home = ({
   items,
+  cartItems,
   searchValue,
   setSearchValue,
   handleAddToCart,
   handleAddToFavorites,
+  isLoading,
 }) => {
+  const renderItems = () => {
+    const filtredItems = items?.filter((item) =>
+      item?.name.toLowerCase().includes(searchValue?.toLowerCase())
+    )
+    return (isLoading ? [...Array(8)] : filtredItems).map((item) => (
+      <CardMain
+        key={item?.id}
+        {...item}
+        onClickPlus
+        handleAddToCart={handleAddToCart}
+        handleAddToFavorites={handleAddToFavorites}
+        isLoading={isLoading}
+      />
+    ))
+  }
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -31,22 +49,8 @@ const Home = ({
         </div>
       </div>
 
-      <div className="mainItems">
-        {items
-          .filter((item) =>
-            item.name.toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .map((item) => (
-            <CardMain
-              key={item.id}
-              {...item}
-              onClickPlus
-              handleAddToCart={handleAddToCart}
-              handleAddToFavorites={handleAddToFavorites}
-            />
-          ))}
-      </div>
+      <div className="mainItems">{renderItems()}</div>
     </div>
-  );
-};
-export default Home;
+  )
+}
+export default Home

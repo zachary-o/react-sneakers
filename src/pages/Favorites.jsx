@@ -1,10 +1,11 @@
-import CardMain from "../components/CardMain";
+import { useContext } from "react"
+import CardMain from "../components/CardMain"
+import AppContext from "../context"
 
-const Favorites = ({
-  favoriteItems,
-  handleAddToCart,
-  handleAddToFavorites,
-}) => {
+const Favorites = () => {
+  const { favoriteItems, handleAddToCart, handleAddToFavorites } =
+    useContext(AppContext)
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -24,6 +25,6 @@ const Favorites = ({
         ))}
       </div>
     </div>
-  );
-};
-export default Favorites;
+  )
+}
+export default Favorites
