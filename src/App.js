@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import AppContext from "./context";
 import Favorites from "./pages/Favorites";
 import Home from "./pages/Home";
+import Orders from "./pages/Orders";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -13,11 +14,11 @@ function App() {
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [isOpenedCart, setIsOpenedCart] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true)
+      setIsLoading(true);
       const cartResponse = await axios.get(
         "https://6646d17c51e227f23aafed62.mockapi.io/cart"
       );
@@ -27,26 +28,31 @@ function App() {
       const itemsResponse = await axios.get(
         "https://6646d17c51e227f23aafed62.mockapi.io/items"
       );
-      setIsLoading(false)
-      setCartItems(cartResponse.data)
-      setFavoriteItems(favoritesResponse.data)
-      setItems(itemsResponse.data)
+      setIsLoading(false);
+      setCartItems(cartResponse.data);
+      setFavoriteItems(favoritesResponse.data);
+      setItems(itemsResponse.data);
     }
 
-    fetchData()
+    fetchData();
   }, []);
 
   const handleAddToCart = async (obj) => {
-    const itemInCart = cartItems.find((item) => Number(item.id) === Number(obj.id));
+    const itemInCart = cartItems.find(
+      (item) => Number(item.id) === Number(obj.id)
+    );
     if (itemInCart) {
-      await axios.delete(`https://6646d17c51e227f23aafed62.mockapi.io/cart/${obj.id}`)
-      setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
+      await axios.delete(
+        `https://6646d17c51e227f23aafed62.mockapi.io/cart/${obj.id}`
+      );
+      setCartItems((prev) =>
+        prev.filter((item) => Number(item.id) !== Number(obj.id))
+      );
     } else {
-      await axios.post("https://6646d17c51e227f23aafed62.mockapi.io/cart", obj)
-      setCartItems(prev => [...prev, obj])
+      await axios.post("https://6646d17c51e227f23aafed62.mockapi.io/cart", obj);
+      setCartItems((prev) => [...prev, obj]);
     }
   };
-
 
   const handleDeleteFromCart = async (id) => {
     try {
@@ -60,22 +66,42 @@ function App() {
   };
 
   const handleAddToFavorites = async (obj) => {
-    const itemInFavorites = favoriteItems.find((favoriteItem) => Number(favoriteItem.id) === Number(obj.id))
+    const itemInFavorites = favoriteItems.find(
+      (favoriteItem) => Number(favoriteItem.id) === Number(obj.id)
+    );
     if (itemInFavorites) {
-      await axios.delete(`https://6649c9264032b1331beececa.mockapi.io/favorites/${obj.id}`);
-      setFavoriteItems((prev) => prev.filter((favoriteItem) => Number(favoriteItem.id) !== Number(obj.id)));
+      await axios.delete(
+        `https://6649c9264032b1331beececa.mockapi.io/favorites/${obj.id}`
+      );
+      setFavoriteItems((prev) =>
+        prev.filter(
+          (favoriteItem) => Number(favoriteItem.id) !== Number(obj.id)
+        )
+      );
     } else {
       axios.post("https://6649c9264032b1331beececa.mockapi.io/favorites", obj);
-      setFavoriteItems((prev) => [...prev, obj])
+      setFavoriteItems((prev) => [...prev, obj]);
     }
   };
 
-  const isInCart = (id) => cartItems.some(
-    (cartItem) => Number(cartItem?.id) === Number(id)
-  )
+  const isInCart = (id) =>
+    cartItems.some((cartItem) => Number(cartItem?.id) === Number(id));
 
   return (
-    <AppContext.Provider value={{ items, cartItems, favoriteItems, isLoading, setIsLoading, isInCart, handleAddToCart, handleAddToFavorites, setIsOpenedCart, setCartItems }}>
+    <AppContext.Provider
+      value={{
+        items,
+        cartItems,
+        favoriteItems,
+        isLoading,
+        setIsLoading,
+        isInCart,
+        handleAddToCart,
+        handleAddToFavorites,
+        setIsOpenedCart,
+        setCartItems,
+      }}
+    >
       <div className="wrapper clear">
         {isOpenedCart && (
           <Drawer
@@ -101,12 +127,8 @@ function App() {
             }
           />
 
-          <Route
-            path="/favorites"
-            element={
-              <Favorites />
-            }
-          />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </div>
     </AppContext.Provider>

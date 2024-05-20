@@ -1,42 +1,43 @@
-import React, { useContext, useState } from "react"
-import styles from "./Drawer.module.scss"
-import CardDrawer from "../CardDrawer"
-import Info from "../Info/Info"
-import AppContext from "../../context"
-import axios from "axios"
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import AppContext from "../../context";
+import useTotalPrice from "../../hooks/useTotalPrice";
+import CardDrawer from "../CardDrawer";
+import Info from "../Info/Info";
+import styles from "./Drawer.module.scss";
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Drawer = ({ setIsOpenedCart, handleDeleteFromCart }) => {
-  const { isLoading, cartItems, setCartItems, setIsLoading } =
-    useContext(AppContext)
-  const [orderId, setOrderId] = useState(null)
-  const [isOrderComplete, setOrderComplete] = useState(false)
+  const { cartItems, setCartItems, totalPrice } = useTotalPrice;
+  const { isLoading, setIsLoading } = useContext(AppContext);
+  const [orderId, setOrderId] = useState(null);
+  const [isOrderComplete, setOrderComplete] = useState(false);
 
   const handleOrderComplete = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const { data } = await axios.post(
         "https://6649c9264032b1331beececa.mockapi.io/orders",
         { items: cartItems }
-      )
+      );
 
-      setOrderId(data.id)
-      setOrderComplete(true)
-      setCartItems([])
+      setOrderId(data.id);
+      setOrderComplete(true);
+      setCartItems([]);
 
       for (let i = 0; i < cartItems.length; i++) {
-        const item = cartItems[i]
+        const item = cartItems[i];
         await axios.delete(
           "https://6646d17c51e227f23aafed62.mockapi.io/cart/" + item.id
-        )
-        await delay(1000)
+        );
+        await delay(1000);
       }
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
-    setIsLoading(false)
-  }
+    setIsLoading(false);
+  };
 
   return (
     <div className={styles.overlay}>
@@ -82,12 +83,12 @@ const Drawer = ({ setIsOpenedCart, handleDeleteFromCart }) => {
                 <li className="">
                   <span>Total:</span>
                   <div></div>
-                  <b>669 USD</b>
+                  <b>{totalPrice} USD</b>
                 </li>
                 <li className="">
                   <span>Tax 5%:</span>
                   <div></div>
-                  <b>33.45 USD USD</b>
+                  <b>{(totalPrice / 100) * 5} USD</b>
                 </li>
               </ul>
               <button
@@ -102,7 +103,7 @@ const Drawer = ({ setIsOpenedCart, handleDeleteFromCart }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Drawer
+export default Drawer;

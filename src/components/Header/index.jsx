@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import AppContext from "../../context";
+import useTotalPrice from "../../hooks/useTotalPrice";
 
-const Header = ({ setIsOpenedCart }) => {
+const Header = () => {
+  const { totalPrice } = useTotalPrice();
+  const { setIsOpenedCart } = useContext(AppContext);
+
   return (
     <header className="d-flex justify-between align-center p-40">
       <Link to="/">
@@ -17,7 +22,7 @@ const Header = ({ setIsOpenedCart }) => {
       <ul className="d-flex">
         <li className="mr-30 cu-p" onClick={() => setIsOpenedCart(true)}>
           <img width={18} height={18} src="/img/cart.svg" alt="Cart" />
-          <span>469 USD</span>
+          <span>{totalPrice} USD</span>
         </li>
         <li className="mr-20 cu-p">
           <Link to="/favorites">
@@ -30,7 +35,15 @@ const Header = ({ setIsOpenedCart }) => {
           </Link>
         </li>
         <li>
-          <img width={18} height={18} src="/img/profile.svg" alt="Profile" />
+          <Link to="/orders">
+            <img
+              className="cu-p"
+              width={18}
+              height={18}
+              src="/img/profile.svg"
+              alt="Profile"
+            />
+          </Link>
         </li>
       </ul>
     </header>
