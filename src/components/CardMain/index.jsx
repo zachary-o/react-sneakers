@@ -10,19 +10,18 @@ const CardMain = ({
   imageUrl,
   handleAddToCart,
   handleAddToFavorites,
-  isInFavorites = false,
   isLoading,
 }) => {
-  const { isInCart } = useContext(AppContext)
-  const [isFavorite, setIsFavorite] = useState(isInFavorites)
+  const { isInCart, isInFavorites } = useContext(AppContext)
+
+  const payload = { id, parentId: id, name, price, imageUrl }
 
   const handlePlusClick = () => {
-    handleAddToCart({ id, name, price, imageUrl })
+    handleAddToCart(payload)
   }
 
   const handleHeartClick = () => {
-    handleAddToFavorites({ id, name, price, imageUrl })
-    setIsFavorite((prev) => !prev)
+    handleAddToFavorites(payload)
   }
 
   return (
@@ -45,13 +44,17 @@ const CardMain = ({
         </ContentLoader>
       ) : (
         <>
-          <div className={styles.favorite}>
-            <img
-              src={isFavorite ? "/img/heart-red.svg" : "/img/heart-gray.svg"}
-              alt={isFavorite ? "Liked" : "Unliked"}
-              onClick={handleHeartClick}
-            />
-          </div>
+          {handleAddToFavorites && (
+            <div className={styles.favorite}>
+              <img
+                src={
+                  isInFavorites ? "/img/heart-gray.svg" : "/img/heart-red.svg"
+                }
+                alt={isInFavorites ? "Unliked" : "Liked"}
+                onClick={handleHeartClick}
+              />
+            </div>
+          )}
 
           <img width={133} height={112} src={imageUrl} alt={name} />
           <h5>{name}</h5>
@@ -61,12 +64,16 @@ const CardMain = ({
               <b>{price} USD</b>
             </div>
 
-            <img
-              className={styles.button}
-              onClick={handlePlusClick}
-              src={isInCart(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
-              alt={isInCart(id) ? "Added to cart" : "Add to cart"}
-            />
+            {handleAddToCart && (
+              <img
+                className={styles.button}
+                onClick={handlePlusClick}
+                src={
+                  isInCart(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"
+                }
+                alt={isInCart(id) ? "Added to cart" : "Add to cart"}
+              />
+            )}
           </div>
         </>
       )}

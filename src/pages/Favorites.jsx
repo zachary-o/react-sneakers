@@ -17,7 +17,6 @@ const Favorites = () => {
           <CardMain
             key={item.id}
             {...item}
-            onClickPlus
             handleAddToCart={handleAddToCart}
             handleAddToFavorites={handleAddToFavorites}
             isInFavorites={true}

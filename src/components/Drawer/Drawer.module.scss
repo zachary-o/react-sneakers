@@ -6,8 +6,9 @@
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  // display: none;
-  // height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
 
   .drawer {
     position: fixed;
@@ -20,6 +21,8 @@
     box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
 
     h2 {
       margin: 0;
@@ -89,5 +92,14 @@
         }
       }
     }
+  }
+}
+
+.overlayVisible {
+  visibility: visible;
+  opacity: 1;
+
+  .drawer {
+    transform: translateX(0);
   }
 }

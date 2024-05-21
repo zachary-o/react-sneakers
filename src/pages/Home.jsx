@@ -1,14 +1,17 @@
+import { useContext } from "react"
 import CardMain from "../components/CardMain"
+import AppContext from "../context"
 
-const Home = ({
-  items,
-  cartItems,
-  searchValue,
-  setSearchValue,
-  handleAddToCart,
-  handleAddToFavorites,
-  isLoading,
-}) => {
+const Home = () => {
+  const {
+    items,
+    handleAddToCart,
+    handleAddToFavorites,
+    isLoading,
+    searchValue,
+    setSearchValue,
+  } = useContext(AppContext)
+
   const renderItems = () => {
     const filtredItems = items?.filter((item) =>
       item?.name.toLowerCase().includes(searchValue?.toLowerCase())
@@ -17,7 +20,6 @@ const Home = ({
       <CardMain
         key={item?.id}
         {...item}
-        onClickPlus
         handleAddToCart={handleAddToCart}
         handleAddToFavorites={handleAddToFavorites}
         isLoading={isLoading}
