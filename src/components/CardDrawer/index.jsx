@@ -14,7 +14,7 @@ const CardDrawer = ({ id, name, price, imageUrl, handleDeleteFromCart }) => {
       </div>
       <img
         className={styles.removeBtn}
-        src="/img/btn-remove.svg"
+        src="img/btn-remove.svg"
         alt="Remove button"
         onClick={() => handleDeleteFromCart(id)}
       />
