@@ -34,11 +34,11 @@ const Home = () => {
           {searchValue ? `Search Results for: ${searchValue}` : "All Sneakers"}
         </h1>
         <div className="searchBlock d-flex">
-          <img src="img/search.svg" alt="Search" />
+          <img src="/img/search.svg" alt="Search" />
           {searchValue && (
             <img
               className="clear cu-p"
-              src="img/btn-remove.svg"
+              src="/img/btn-remove.svg"
               alt="Clear search input"
               onClick={() => setSearchValue("")}
             />
