@@ -137,7 +137,7 @@ function App() {
         <Drawer isOpenedCart={isOpenedCart} />
         <Header setIsOpenedCart={setIsOpenedCart} />
         <Routes>
-          <Route path="" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="favorites" element={<Favorites />} />
           <Route path="orders" element={<Orders />} />
         </Routes>
