@@ -51,7 +51,7 @@ const Drawer = ({ isOpenedCart }) => {
           Cart
           <img
             className="cu-p"
-            src="/img/btn-remove.svg"
+            src="img/btn-remove.svg"
             alt="Close Cart"
             onClick={() => setIsOpenedCart(false)}
           />
@@ -61,9 +61,7 @@ const Drawer = ({ isOpenedCart }) => {
           <Info
             title={isOrderComplete ? "Order Completed!" : "Cart is empty."}
             image={
-              isOrderComplete
-                ? "/img/completed-order.svg"
-                : "/img/empty-cart.svg"
+              isOrderComplete ? "img/completed-order.svg" : "img/empty-cart.svg"
             }
             description={
               isOrderComplete
@@ -101,7 +99,7 @@ const Drawer = ({ isOpenedCart }) => {
                 className={styles.greenButton}
                 onClick={handleOrderComplete}
               >
-                Place an order <img src="/img/arrow-right.svg" alt="Arrow" />
+                Place an order <img src="img/arrow-right.svg" alt="Arrow" />
               </button>
             </div>
           </>

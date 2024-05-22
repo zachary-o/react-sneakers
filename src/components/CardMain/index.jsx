@@ -48,9 +48,7 @@ const CardMain = ({
             <div className={styles.favorite}>
               <img
                 src={
-                  isInFavorites(id)
-                    ? "/img/heart-red.svg"
-                    : "/img/heart-gray.svg"
+                  isInFavorites(id) ? "img/heart-red.svg" : "img/heart-gray.svg"
                 }
                 alt={isInFavorites(id) ? "Liked" : "Unliked"}
                 onClick={handleHeartClick}
@@ -70,9 +68,7 @@ const CardMain = ({
               <img
                 className={styles.button}
                 onClick={handlePlusClick}
-                src={
-                  isInCart(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"
-                }
+                src={isInCart(id) ? "img/btn-checked.svg" : "img/btn-plus.svg"}
                 alt={isInCart(id) ? "Added to cart" : "Add to cart"}
               />
             )}
