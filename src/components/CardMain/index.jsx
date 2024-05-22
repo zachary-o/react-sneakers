@@ -24,6 +24,9 @@ const CardMain = ({
     handleAddToFavorites(payload)
   }
 
+  console.log("isInFavorites", isInFavorites)
+  console.log("isInCart", isInCart)
+
   return (
     <div className={styles.card}>
       {isLoading ? (
@@ -48,9 +51,11 @@ const CardMain = ({
             <div className={styles.favorite}>
               <img
                 src={
-                  isInFavorites ? "/img/heart-gray.svg" : "/img/heart-red.svg"
+                  isInFavorites(id)
+                    ? "/img/heart-red.svg"
+                    : "/img/heart-gray.svg"
                 }
-                alt={isInFavorites ? "Unliked" : "Liked"}
+                alt={isInFavorites(id) ? "Liked" : "Unliked"}
                 onClick={handleHeartClick}
               />
             </div>

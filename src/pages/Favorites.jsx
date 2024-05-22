@@ -3,8 +3,7 @@ import CardMain from "../components/CardMain"
 import AppContext from "../context"
 
 const Favorites = () => {
-  const { favoriteItems, handleAddToCart, handleAddToFavorites } =
-    useContext(AppContext)
+  const { favoriteItems, handleAddToCart } = useContext(AppContext)
 
   return (
     <div className="content p-40">
@@ -18,7 +17,6 @@ const Favorites = () => {
             key={item.id}
             {...item}
             handleAddToCart={handleAddToCart}
-            handleAddToFavorites={handleAddToFavorites}
             isInFavorites={true}
           />
         ))}

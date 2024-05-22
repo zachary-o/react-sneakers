@@ -68,6 +68,35 @@ function App() {
       console.log('error', error)
     }
   };
+  const handleAddToFavorites = async (obj) => {
+    const itemInFavorites = favoriteItems.find(
+      (item) => Number(item.parentId) === Number(obj.id)
+    );
+    try {
+      if (itemInFavorites) {
+        setFavoriteItems((prev) =>
+          prev.filter((item) => Number(item.parentId) !== Number(obj.id))
+        );
+        await axios.delete(
+          `https://6649c9264032b1331beececa.mockapi.io/favorites/${itemInFavorites.id}`
+        );
+      } else {
+        setFavoriteItems((prev) => [...prev, obj]);
+        const { data } = await axios.post("https://6649c9264032b1331beececa.mockapi.io/favorites", obj);
+        setFavoriteItems(prev => prev.map((item) => {
+          if (item.parentId === data.parentId) {
+            return {
+              ...item,
+              id: data.id
+            }
+          }
+          return item
+        }))
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  };
 
   const handleDeleteFromCart = async (id) => {
     try {
@@ -80,31 +109,9 @@ function App() {
     }
   };
 
-  const handleAddToFavorites = async (obj) => {
-    const itemInFavorites = favoriteItems.find(
-      (favoriteItem) => Number(favoriteItem.parentId) === Number(obj.id)
-    );
-    try {
-      if (itemInFavorites) {
-        setFavoriteItems((prev) =>
-          prev.filter(
-            (favoriteItem) => Number(favoriteItem.id) !== Number(obj.id)
-          )
-        );
-        await axios.delete(
-          `https://6649c9264032b1331beececa.mockapi.io/favorites/${obj.id}`
-        );
-      } else {
-        setFavoriteItems((prev) => [...prev, obj]);
-        axios.post("https://6649c9264032b1331beececa.mockapi.io/favorites", obj);
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
-  };
 
   const isInCart = (id) => cartItems.some((cartItem) => Number(cartItem?.parentId) === Number(id));
-  const isInFavorites = (id) => favoriteItems.some(favoriteItem => Number(favoriteItem?.parentId === Number(id)))
+  const isInFavorites = (id) => favoriteItems.some((favoriteItem) => Number(favoriteItem?.parentId) === Number(id))
 
   return (
     <AppContext.Provider
