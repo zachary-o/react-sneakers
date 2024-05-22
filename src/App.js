@@ -68,6 +68,7 @@ function App() {
       console.log('error', error)
     }
   };
+
   const handleAddToFavorites = async (obj) => {
     const itemInFavorites = favoriteItems.find(
       (item) => Number(item.parentId) === Number(obj.id)
