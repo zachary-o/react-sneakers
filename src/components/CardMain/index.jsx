@@ -24,9 +24,6 @@ const CardMain = ({
     handleAddToFavorites(payload)
   }
 
-  console.log("isInFavorites", isInFavorites)
-  console.log("isInCart", isInCart)
-
   return (
     <div className={styles.card}>
       {isLoading ? (
