@@ -12,20 +12,9 @@ const Home = () => {
     setSearchValue,
   } = useContext(AppContext)
 
-  const renderItems = () => {
-    const filtredItems = items?.filter((item) =>
-      item?.name.toLowerCase().includes(searchValue?.toLowerCase())
-    )
-    return (isLoading ? [...Array(8)] : filtredItems).map((item) => (
-      <CardMain
-        key={item?.id}
-        {...item}
-        handleAddToCart={handleAddToCart}
-        handleAddToFavorites={handleAddToFavorites}
-        isLoading={isLoading}
-      />
-    ))
-  }
+  const filteredItems = items?.filter((item) =>
+    item?.name.toLowerCase().includes(searchValue?.toLowerCase())
+  )
 
   return (
     <div className="content p-40">
@@ -51,8 +40,19 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mainItems">{renderItems()}</div>
+      <div className="mainItems">
+        {(isLoading ? [...Array(8)] : filteredItems).map((item, index) => (
+          <CardMain
+            key={item?.id || index}
+            {...item}
+            handleAddToCart={handleAddToCart}
+            handleAddToFavorites={handleAddToFavorites}
+            isLoading={isLoading}
+          />
+        ))}
+      </div>
     </div>
   )
 }
+
 export default Home
